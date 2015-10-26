@@ -1,0 +1,65 @@
+<LinearLayout
+	android:id="@+id/edit_name"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:layout_gravity="center"
+	android:layout_marginBottom="10sp"
+	android:gravity="center_vertical|center_horizontal"
+	android:orientation="vertical">
+
+	<TextView
+		android:id="@+id/TextTitle"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="Select the Time"
+		android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+	<LinearLayout
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:gravity="center|center_horizontal"
+		android:orientation="horizontal">
+
+		<NumberPicker
+			android:id="@+id/numberPicker1"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:gravity="center"/>
+
+		<TextView
+			android:id="@+id/textView2"
+			android:layout_width="wrap_content"
+			android:layout_height="57sp"
+			android:layout_gravity="center"
+			android:layout_margin="0dp"
+			android:text=" : "
+			android:textSize="40sp"/>
+
+		<NumberPicker
+			android:id="@+id/numberPicker2"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:gravity="center"/>
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:gravity="center|center_horizontal"
+		android:orientation="horizontal">
+
+		<Button
+			android:id="@+id/cancel"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Cancel"/>
+
+		<Button
+			android:id="@+id/ok"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Set"/>
+	</LinearLayout>
+
+</LinearLayout>
