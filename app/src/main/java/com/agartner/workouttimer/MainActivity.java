@@ -56,9 +56,9 @@ public class MainActivity extends ActionBarActivity implements TimerCallbacks{
 	}
 
 	@Override
-	protected void onStop()
+	protected void onDestroy()
 	{
-		super.onStop();
+		super.onDestroy();
 		if (mServiceBound)
 		{
 			unbindService(mConnection);
