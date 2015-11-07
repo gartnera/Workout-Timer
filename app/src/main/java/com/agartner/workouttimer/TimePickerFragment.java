@@ -52,7 +52,7 @@ public class TimePickerFragment extends DialogFragment {
 				int seconds = np.getValue();
 
 				MainActivity main = (MainActivity) getActivity();
-				main.setTime(minutes, seconds);
+				main.timePickerResult(minutes, seconds);
 
 				dismiss();
 			}
