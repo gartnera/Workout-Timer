@@ -87,16 +87,7 @@ public class MainActivity extends ActionBarActivity implements TimerCallbacks{
         return super.onOptionsItemSelected(item);
     }
 
-    public void timerSelected(View view)
-    {
-		Bundle params= new Bundle();
-		params.putInt("minutes", mService.getMinutes());
-		params.putInt("seconds", mService.getSeconds());
 
-        DialogFragment newFragment = new TimePickerFragment();
-		newFragment.setArguments(params);
-        newFragment.show(getFragmentManager(), "timePicker");
-    }
 
 	public void timePickerResult(int minutes, int seconds)
 	{
@@ -109,6 +100,22 @@ public class MainActivity extends ActionBarActivity implements TimerCallbacks{
 
 		String timerText = String.format("%d:%02d", minutes, seconds);
 		timer.setText(timerText);
+	}
+
+	/*** Click Handlers ***/
+	public void timerSelected(View view)
+	{
+		Bundle params= new Bundle();
+		params.putInt("minutes", mService.getMinutes());
+		params.putInt("seconds", mService.getSeconds());
+
+		DialogFragment newFragment = new TimePickerFragment();
+		newFragment.setArguments(params);
+		newFragment.show(getFragmentManager(), "timePicker");
+	}
+	public void onStartButtonClicked(View view)
+	{
+		mService.startTimer();
 	}
 
 }

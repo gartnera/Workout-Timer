@@ -3,6 +3,7 @@ package com.agartner.workouttimer;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
+import android.os.Handler;
 import android.os.IBinder;
 
 /**
@@ -15,6 +16,26 @@ public class TimerService extends Service{
 
 	private int mMinutes;
 	private int mSeconds;
+
+	final Handler timerHandler = new Handler();
+	Runnable timerRunnable = new Runnable() {
+		@Override
+		public void run() {
+			if (mSeconds > 0)
+				--mSeconds;
+			else if (mMinutes > 0)
+			{
+				--mMinutes;
+				mSeconds = 60;
+			}
+			else
+			{
+				return;
+			}
+			serviceCallbacks.setTime(mMinutes, mSeconds);
+			timerHandler.postDelayed(this, 1000);
+		}
+	};
 
 	public  class LocalBinder extends Binder
 	{
@@ -56,5 +77,10 @@ public class TimerService extends Service{
 	public int getSeconds()
 	{
 		return mSeconds;
+	}
+
+	public void startTimer()
+	{
+		timerHandler.postDelayed(timerRunnable, 1000);
 	}
 }
