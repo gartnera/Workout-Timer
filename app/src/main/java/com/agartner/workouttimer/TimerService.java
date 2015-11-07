@@ -14,25 +14,25 @@ public class TimerService extends Service{
 	private final IBinder mBinder = new LocalBinder();
 	private TimerCallbacks serviceCallbacks;
 
-	private int mMinutes;
 	private int mSeconds;
+
+	private boolean mIsRunning = false;
 
 	final Handler timerHandler = new Handler();
 	Runnable timerRunnable = new Runnable() {
 		@Override
 		public void run() {
-			if (mSeconds > 0)
+			if (!mIsRunning)
+				return;
+			if (mSeconds > 0) {
 				--mSeconds;
-			else if (mMinutes > 0)
-			{
-				--mMinutes;
-				mSeconds = 60;
 			}
 			else
 			{
+				mIsRunning = false;
 				return;
 			}
-			serviceCallbacks.setTime(mMinutes, mSeconds);
+			serviceCallbacks.updateTime();
 			timerHandler.postDelayed(this, 1000);
 		}
 	};
@@ -61,26 +61,40 @@ public class TimerService extends Service{
 		return mBinder;
 	}
 
-	public void setTime(int minutes, int seconds)
+	public void setTime(int seconds)
 	{
-		mMinutes = minutes;
 		mSeconds = seconds;
 
-		serviceCallbacks.setTime(minutes, seconds);
+		serviceCallbacks.updateTime();
 	}
 
 	public int getMinutes()
 	{
-		return mMinutes;
+		return mSeconds / 60;
 	}
 
 	public int getSeconds()
+	{
+		return mSeconds % 60;
+	}
+
+	public int getTotalSeconds()
 	{
 		return mSeconds;
 	}
 
 	public void startTimer()
 	{
+		mIsRunning = true;
 		timerHandler.postDelayed(timerRunnable, 1000);
+	}
+	public void stopTimer()
+	{
+		mIsRunning = false;
+	}
+
+	public boolean isRunning()
+	{
+		return mIsRunning;
 	}
 }

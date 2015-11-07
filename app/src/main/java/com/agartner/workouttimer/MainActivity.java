@@ -15,6 +15,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
@@ -87,27 +88,32 @@ public class MainActivity extends ActionBarActivity implements TimerCallbacks{
         return super.onOptionsItemSelected(item);
     }
 
-
-
-	public void timePickerResult(int minutes, int seconds)
+	public void timePickerResult(int seconds)
 	{
-		mService.setTime(minutes, seconds);
+		mService.setTime(seconds);
 	}
 
-	public void setTime(int minutes, int seconds)
+	/*** TimerCallback Impl ***/
+	public void updateTime()
 	{
 		TextView timer = (TextView) findViewById(R.id.textMainTimer);
 
-		String timerText = String.format("%d:%02d", minutes, seconds);
+		int minutes = mService.getMinutes();
+		int pSeconds = mService.getSeconds();
+		String timerText = String.format("%d:%02d", minutes, pSeconds);
 		timer.setText(timerText);
+	}
+	public void timerFinished()
+	{
+		Button btn = (Button) findViewById(R.id.btn_start);
+		btn.setText(R.string.stop);
 	}
 
 	/*** Click Handlers ***/
 	public void timerSelected(View view)
 	{
 		Bundle params= new Bundle();
-		params.putInt("minutes", mService.getMinutes());
-		params.putInt("seconds", mService.getSeconds());
+		params.putInt("seconds", mService.getTotalSeconds());
 
 		DialogFragment newFragment = new TimePickerFragment();
 		newFragment.setArguments(params);
@@ -115,7 +121,17 @@ public class MainActivity extends ActionBarActivity implements TimerCallbacks{
 	}
 	public void onStartButtonClicked(View view)
 	{
-		mService.startTimer();
+		Button btn = (Button) findViewById(R.id.btn_start);
+		if (mService.isRunning())
+		{
+			mService.stopTimer();
+			btn.setText(R.string.start);
+		}
+		else
+		{
+			mService.startTimer();
+			btn.setText(R.string.stop);
+		}
 	}
 
 }
