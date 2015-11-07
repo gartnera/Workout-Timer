@@ -22,14 +22,17 @@ public class TimerService extends Service{
 	Runnable timerRunnable = new Runnable() {
 		@Override
 		public void run() {
-			if (!mIsRunning)
+			if (!mIsRunning) {
+				serviceCallbacks.timerFinished();
 				return;
+			}
 			if (mSeconds > 0) {
 				--mSeconds;
 			}
 			else
 			{
 				mIsRunning = false;
+				serviceCallbacks.timerFinished();
 				return;
 			}
 			serviceCallbacks.updateTime();
